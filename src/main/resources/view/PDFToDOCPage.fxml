@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="context" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lgq.pdf_util.controller.PDFToDOCPageController">
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="400.0" prefWidth="138.0">
+               <children>
+                  <JFXButton fx:id="toBasePageBtn" onAction="#toBasePage" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="&lt; 返回" />
+                  <JFXButton fx:id="chooseFileBtn" onAction="#chooseFile" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="文件选择" />
+                  <JFXButton fx:id="chooseDestinationFolderBtn" onAction="#chooseDestinationFolder" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="目标文件夹选择" />
+                  <JFXButton fx:id="startBtn" onAction="#start" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="开始转换" />
+               </children>
+            </VBox>
+            <VBox prefHeight="400.0" prefWidth="504.0">
+               <children>
+                  <HBox prefHeight="34.0" prefWidth="483.0">
+                     <children>
+                        <Label prefHeight="15.0" prefWidth="105.0" text="需要转换的文件：" />
+                        <TextField fx:id="fileNameTF" disable="true" prefHeight="30.0" prefWidth="280.0" />
+                        <Label prefHeight="15.0" prefWidth="58.0" text="总页数：" />
+                        <Label fx:id="totalPageLab" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="28.0" prefWidth="483.0">
+                     <children>
+                        <Label prefHeight="15.0" prefWidth="182.0" text="目标文件夹：" />
+                        <TextField fx:id="outFolderTF" disable="true" prefHeight="23.0" prefWidth="294.0" />
+                        <Label prefHeight="15.0" prefWidth="182.0" text="文件名：" />
+                        <TextField fx:id="outFileNameTF" prefHeight="23.0" prefWidth="266.0" />
+                        <Label prefHeight="15.0" prefWidth="182.0" text=".doc" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="起始页：" />
+                        <TextField fx:id="startPageTF" />
+                        <Label text="结束页：" />
+                        <TextField fx:id="endPageTF" />
+                     </children>
+                  </HBox>
+                  <JFXTextArea fx:id="messageJFX" prefHeight="238.0" prefWidth="483.0" style="-fx-background-color: #82c9a7;" unFocusColor="#82c9a7" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>
