@@ -24,7 +24,7 @@
                   <HBox prefHeight="34.0" prefWidth="483.0">
                      <children>
                         <Label prefHeight="15.0" prefWidth="105.0" text="所选文件夹：" />
-                        <TextField fx:id="pathTF" disable="true" prefHeight="30.0" prefWidth="280.0" />
+                        <TextField fx:id="pathTF" disable="true" prefHeight="30.0" prefWidth="234.0" />
                         <Label prefHeight="15.0" prefWidth="106.0" text="算选pdf数量：" />
                         <Label fx:id="totalLab" />
                      </children>
