@@ -2,8 +2,6 @@ package com.lgq.pdf_util.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
-import com.lgq.pdf_util.PdfUtilApplication;
 import com.lgq.pdf_util.util.FileUtils;
 import com.lgq.pdf_util.util.OtherPdfHelper;
 import com.lgq.pdf_util.util.SystemUtils;
@@ -20,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -75,17 +74,18 @@ public class PDFSJointController extends FXController {
     }
 
     public void start(ActionEvent actionEvent) {
+        List<File> fileList = Arrays.stream(fileNameFinal.split("\n")).map(e -> {
+            String filePath = cachePath + "\\" + e;
+            return new File(filePath);
+        }).collect(Collectors.toList());
+        UUID uuid = UUID.randomUUID();
+        String outPath = cachePath + "\\" + "合并结果_" + uuid + ".pdf";
         try {
-            List<File> fileList = Arrays.stream(fileNameFinal.split("\n")).map(e -> {
-                String filePath = cachePath + "\\" + e;
-                return new File(filePath);
-            }).toList();
-            String outPath = cachePath + "\\" + "合并结果.pdf";
             FileOutputStream fileOutputStream = new FileOutputStream(outPath);
             OtherPdfHelper.concatPDFsByPage(fileList, fileOutputStream);
         } catch (Exception e) {
             printMsg(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
         }
-        printMsg("导出成功");
+        printMsg("导出成功， 导出文件地址：" + outPath);
     }
 }
