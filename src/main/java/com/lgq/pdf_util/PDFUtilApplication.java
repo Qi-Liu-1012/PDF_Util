@@ -1,5 +1,6 @@
 package com.lgq.pdf_util;
 
+import com.lgq.pdf_util.screen.CustomSplash;
 import com.lgq.pdf_util.view.BasePageView;
 import de.felixroske.jfxsupport.AbstractJavaFxApplicationSupport;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class PDFUtilApplication extends AbstractJavaFxApplicationSupport {
     public static void main(String[] args) {
-        launch(PDFUtilApplication.class, BasePageView.class, args);
+        launch(PDFUtilApplication.class, BasePageView.class, new CustomSplash(), args);
     }
 }

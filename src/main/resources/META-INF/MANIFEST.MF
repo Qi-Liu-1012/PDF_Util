@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Main-Class: com.lgq.pdf_util.PDFUtilApplication
+Class-Path: spring-context-5.2.15.RELEASE.jar itextpdf-5.5.9.jar lombok-
+ 1.18.20.jar snakeyaml-1.26.jar logback-classic-1.2.3.jar log4j-api-2.13
+ .3.jar javafx-swing-21-ea+5-win.jar javafx-base-21-ea+5-win.jar spring-
+ boot-autoconfigure-2.3.12.RELEASE.jar hutool-all-5.8.21.jar jul-to-slf4
+ j-1.7.30.jar javafx-media-21-ea+5-win.jar slf4j-api-1.7.30.jar javafx-f
+ xml-21-ea+5-win.jar logback-core-1.2.3.jar spring-core-5.2.15.RELEASE.j
+ ar javafx-swing-21-ea+5.jar javafx-graphics-21-ea+5-win.jar javafx-cont
+ rols-21-ea+5-win.jar spring-beans-5.2.15.RELEASE.jar javafx-fxml-21-ea+
+ 5.jar springboot-javafx-support-2.1.6.jar spring-jcl-5.2.15.RELEASE.jar
+  javafx-controls-21-ea+5.jar spring-boot-2.3.12.RELEASE.jar spring-aop-
+ 5.2.15.RELEASE.jar jakarta.annotation-api-1.3.5.jar javafx-graphics-21-
+ ea+5.jar jfoenix-8.0.10.jar spring-expression-5.2.15.RELEASE.jar spring
+ -boot-starter-logging-2.3.12.RELEASE.jar spring-boot-starter-2.3.12.REL
+ EASE.jar javafx-base-21-ea+5.jar aspose-pdf-21.6.jar javafx-media-21-ea
+ +5.jar log4j-to-slf4j-2.13.3.jar
+
