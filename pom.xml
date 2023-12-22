@@ -99,18 +99,54 @@
 
     <build>
         <plugins>
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>com.zenjava</groupId>-->
+<!--                <artifactId>javafx-maven-plugin</artifactId>-->
+<!--                <version>8.8.3</version>-->
+<!--                <configuration>-->
+<!--                    <mainClass>com.lgq.pdf_util.PDFUtilApplication</mainClass>-->
+<!--                    <vendor>lgq</vendor>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.zenjava</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>8.8.3</version>
-                <configuration>
-                    <mainClass>com.lgq.pdf_util.PDFUtilApplication</mainClass>
-                    <vendor>lgq</vendor>
-                </configuration>
+                <groupId>io.github.fvarrui</groupId>
+                <artifactId>javapackager</artifactId>
+                <version>1.6.6</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 启动类 -->
+                            <mainClass>com.lgq.pdf_util.PDFUtilApplication</mainClass>
+                            <!-- 绑定自定义JRE路径-->
+                            <bundleJre>true</bundleJre>
+                            <jrePath>C:\Program Files\Java\jre1.8.0_341</jrePath>
+                            <generateInstaller>true</generateInstaller>
+                            <administratorRequired>false</administratorRequired>
+                            <!-- 操作系统-->
+                            <platform>windows</platform>
+                            <copyDependencies>true</copyDependencies>
+                            <!-- 名称与版本-->
+                            <displayName>PDF_UTILS</displayName>
+                            <name>PDF_UTILS</name>
+                            <version>1.0</version>
+                            <!--详细参数配置-->
+                            <winConfig>
+                                <icoFile>src/main/resources/static/img/icon.ico</icoFile>
+                                <generateSetup>false</generateSetup>
+                                <generateMsi>false</generateMsi>
+                                <generateMsm>false</generateMsm>
+                            </winConfig>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
