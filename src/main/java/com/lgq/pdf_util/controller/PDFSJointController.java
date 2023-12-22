@@ -12,13 +12,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -33,9 +34,13 @@ public class PDFSJointController extends FXController {
     @FXML
     private JFXButton chooseDestinationFolderBtn;
     @FXML
+    private JFXButton multiFileChooseBtn;
+    @FXML
     private JFXButton startBtn;
     @FXML
     private TextField pathTF;
+    @FXML
+    private TextField outTF;
     @FXML
     private Label totalLab;
     @FXML
@@ -44,7 +49,12 @@ public class PDFSJointController extends FXController {
     private JFXTextArea messageJFX;
 
     private static String cachePath = SystemUtils.getDocumentsPath();
+    private static String outPath = SystemUtils.getDocumentsPath();
+    private static Integer pdfNum = 0;
     private static String fileNameFinal = "";
+    private static List<File> fileFinal = new ArrayList<>();
+
+
 
     public void toBasePage(ActionEvent actionEvent) {
         Stage stage = getStage(toBasePageBtn);
@@ -66,25 +76,69 @@ public class PDFSJointController extends FXController {
         List<String> fileNames = FileUtils.readPDFFiles(outDirectory);
         pathTF.setText(outFolderPath);
         cachePath = outFolderPath;
-        String text = String.join("\n", fileNames);
-        fileNameFinal = text;
+        String text = fileNames.stream().peek(e -> {
+            String filePath = cachePath + "\\" + e;
+            fileFinal.add(new File(filePath));
+        }).collect(Collectors.joining("\n"));
+        if (StringUtils.hasText(fileNameFinal)) {
+            text = "\n" + text;
+        }
+        fileNameFinal = fileNameFinal + text;
         filesJFX.setText(text);
-        totalLab.setText(String.valueOf(fileNames.size()));
+        pdfNum += fileNames.size();
+        totalLab.setText(pdfNum.toString());
+        printMsg("导入成功");
+    }
+
+    public void chooseOutDestinationFolder(ActionEvent actionEvent) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("选择文件夹");
+        directoryChooser.setInitialDirectory(new File(outPath));
+        File outDirectory = directoryChooser.showDialog(getStage(chooseDestinationFolderBtn));
+        if (Objects.isNull(outDirectory)){
+            return;
+        }
+        outPath = outDirectory.getPath();
+        outTF.setText(outPath);
+    }
+
+    public void chooseMultiFile(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("选择PDF文件");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
+        );
+        fileChooser.setInitialDirectory(new File(cachePath));
+        List<File> files = fileChooser.showOpenMultipleDialog(getStage(multiFileChooseBtn));
+        if (CollectionUtils.isEmpty(files)) {
+            return;
+        }
+        File file = files.get(0);
+        cachePath = file.getParent();
+        String text = files.stream().map(File::getName).collect(Collectors.joining("\n"));
+        if (StringUtils.hasText(fileNameFinal)) {
+            text = "\n" + text;
+        }
+        fileNameFinal = fileNameFinal + text;
+        filesJFX.setText(fileNameFinal);
+        pdfNum += files.size();
+        totalLab.setText(pdfNum.toString());
+        fileFinal.addAll(files);
         printMsg("导入成功");
     }
 
     public void start(ActionEvent actionEvent) {
-        List<File> fileList = Arrays.stream(fileNameFinal.split("\n")).map(e -> {
-            String filePath = cachePath + "\\" + e;
-            return new File(filePath);
-        }).collect(Collectors.toList());
+        if (Objects.isNull(outPath)){
+            return;
+        }
         UUID uuid = UUID.randomUUID();
-        String outPath = cachePath + "\\" + "合并结果_" + uuid + ".pdf";
+        String out = outPath + "\\" + "合并结果_" + uuid + ".pdf";
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(outPath);
-            OtherPdfHelper.concatPDFsByPage(fileList, fileOutputStream);
+            FileOutputStream fileOutputStream = new FileOutputStream(out);
+            OtherPdfHelper.concatPDFsByPage(fileFinal, fileOutputStream);
         } catch (Exception e) {
             printMsg(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+            return;
         }
         printMsg("导出成功， 导出文件地址：" + outPath);
     }
