@@ -10,7 +10,7 @@
    <center>
       <VBox prefHeight="539.0" prefWidth="421.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton fx:id="toPDFToDOCPageBtn" alignment="TOP_CENTER" contentDisplay="TOP" onAction="#toPDFToDOCPage" prefHeight="67.0" prefWidth="327.0" style="-fx-background-color: #3c91c9;" text="PDF转DOC">
+            <JFXButton fx:id="toPDFToDOCPageBtn" alignment="TOP_CENTER" contentDisplay="TOP" onAction="#toPDFToDOCPage" prefHeight="67.0" prefWidth="327.0" style="-fx-background-color: #3c91c9;" text="PDF转换">
                <VBox.margin>
                   <Insets left="50.0" right="50.0" top="10.0" />
                </VBox.margin>

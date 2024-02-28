@@ -17,7 +17,8 @@
                   <JFXButton fx:id="toBasePageBtn" onAction="#toBasePage" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="&lt; 返回" />
                   <JFXButton fx:id="chooseFileBtn" onAction="#chooseFile" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="文件选择" />
                   <JFXButton fx:id="chooseDestinationFolderBtn" onAction="#chooseDestinationFolder" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="目标文件夹选择" />
-                  <JFXButton fx:id="startBtn" onAction="#start" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="开始转换" />
+                  <JFXButton fx:id="toPdfBtn" onAction="#toPdf" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="开始截取" />
+                  <JFXButton fx:id="toDocBtn" onAction="#toDoc" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="转换为DOC" />
                </children>
             </VBox>
             <VBox prefHeight="400.0" prefWidth="504.0">

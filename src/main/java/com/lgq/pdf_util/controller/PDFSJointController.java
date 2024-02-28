@@ -3,8 +3,8 @@ package com.lgq.pdf_util.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.lgq.pdf_util.util.FileUtils;
-import com.lgq.pdf_util.util.OtherPdfHelper;
 import com.lgq.pdf_util.util.SystemUtils;
+import com.lgq.pdf_util.util.XEasyPdfUtils;
 import com.lgq.pdf_util.view.BasePageView;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.event.ActionEvent;
@@ -55,7 +55,6 @@ public class PDFSJointController extends FXController {
     private static List<File> fileFinal = new ArrayList<>();
 
 
-
     public void toBasePage(ActionEvent actionEvent) {
         Stage stage = getStage(toBasePageBtn);
         goToPage(stage, BasePageView.class);
@@ -65,11 +64,19 @@ public class PDFSJointController extends FXController {
         messageJFX.setText(msg);
     }
 
+    public void printMsg(String msg, Exception e) {
+        e.printStackTrace();
+        messageJFX.setText(msg);
+    }
+
     public void chooseDestinationFolder(ActionEvent actionEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("选择文件夹");
         directoryChooser.setInitialDirectory(new File(cachePath));
         File outDirectory = directoryChooser.showDialog(getStage(chooseDestinationFolderBtn));
+        if (Objects.isNull(outDirectory)) {
+            return;
+        }
         String outFolderPath = outDirectory.getPath();
 
         //读取文件夹下的所有pdf
@@ -90,12 +97,21 @@ public class PDFSJointController extends FXController {
         printMsg("导入成功");
     }
 
+    public void clearFileList(ActionEvent actionEvent) {
+        fileNameFinal = "";
+        fileFinal.removeAll(fileFinal);
+        filesJFX.setText("");
+        pdfNum = 0;
+        totalLab.setText(pdfNum.toString());
+        printMsg("清除成功");
+    }
+
     public void chooseOutDestinationFolder(ActionEvent actionEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("选择文件夹");
         directoryChooser.setInitialDirectory(new File(outPath));
         File outDirectory = directoryChooser.showDialog(getStage(chooseDestinationFolderBtn));
-        if (Objects.isNull(outDirectory)){
+        if (Objects.isNull(outDirectory)) {
             return;
         }
         outPath = outDirectory.getPath();
@@ -128,16 +144,17 @@ public class PDFSJointController extends FXController {
     }
 
     public void start(ActionEvent actionEvent) {
-        if (Objects.isNull(outPath)){
+        if (CollectionUtils.isEmpty(fileFinal)) {
+            printMsg("请选择文件");
             return;
         }
         UUID uuid = UUID.randomUUID();
         String out = outPath + "\\" + "合并结果_" + uuid + ".pdf";
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(out);
-            OtherPdfHelper.concatPDFsByPage(fileFinal, fileOutputStream);
+            XEasyPdfUtils.concatPDFsByPage(fileFinal, fileOutputStream);
         } catch (Exception e) {
-            printMsg(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+            printMsg(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()), e);
             return;
         }
         printMsg("导出成功， 导出文件地址：" + outPath);

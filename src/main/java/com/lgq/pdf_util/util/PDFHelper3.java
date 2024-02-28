@@ -1,34 +1,33 @@
 package com.lgq.pdf_util.util;
 
 import com.aspose.pdf.*;
+import org.dromara.pdf.pdfbox.doc.XEasyPdfDocument;
 
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Objects;
 
 public class PDFHelper3 {
 
     //pdf转doc
-    public static void pdfToDoc(String pdfPath) {
-        long old = System.currentTimeMillis();
+    public static void pdfToDoc(InputStream inputStream, OutputStream outputStream) {
+        Document doc = null;
         try {
-            //新建一个word文档
-            String wordPath=pdfPath.substring(0,pdfPath.lastIndexOf("."))+".docx";
-            FileOutputStream os = new FileOutputStream(wordPath);
             //doc是将要被转化的word文档
-            Document doc = new Document(pdfPath);
+            doc = new Document(inputStream);
             //全面支持DOC, DOCX, OOXML, RTF HTML, OpenDocument, PDF, EPUB, XPS, SWF 相互转换
-            doc.save(os, SaveFormat.DocX);
-            os.close();
-            //转化用时
-            long now = System.currentTimeMillis();
-            System.out.println("Pdf 转 Word 共耗时：" + ((now - old) / 1000.0) + "秒");
-        } catch (Exception e) {
-            System.out.println("Pdf 转 Word 失败...");
-            e.printStackTrace();
+            doc.save(outputStream, SaveFormat.DocX);
+        } finally {
+            if (Objects.nonNull(doc)) {
+                doc.close();
+            }
         }
     }
 
     /**
      * 删除PDF某页
+     *
      * @param pdfPath
      */
     public static void pdfDeletePage(String pdfPath, Integer page) {

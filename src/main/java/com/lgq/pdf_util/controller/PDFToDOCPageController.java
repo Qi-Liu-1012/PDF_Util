@@ -2,20 +2,13 @@ package com.lgq.pdf_util.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
-import com.lgq.pdf_util.elements.CustomDialog;
-import com.lgq.pdf_util.util.FXUtils;
-import com.lgq.pdf_util.util.OtherPdfHelper;
-import com.lgq.pdf_util.util.PDFHelper3;
-import com.lgq.pdf_util.util.SystemUtils;
+import com.lgq.pdf_util.util.*;
 import com.lgq.pdf_util.view.BasePageView;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -24,11 +17,7 @@ import org.springframework.util.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.net.URL;
 import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 @FXMLController
 public class PDFToDOCPageController extends FXController {
@@ -55,7 +44,9 @@ public class PDFToDOCPageController extends FXController {
     @FXML
     private Label totalPageLab;
     @FXML
-    private JFXButton startBtn;
+    private JFXButton toDocBtn;
+    @FXML
+    private JFXButton toPdfBtn;
     @FXML
     private JFXTextArea messageJFX;
 
@@ -87,7 +78,7 @@ public class PDFToDOCPageController extends FXController {
         fileNameTF.setText(fileName);
         outFileNameTF.setText(fileName.substring(0, lastIndex) + "_temp");
         try {
-            Integer page = OtherPdfHelper.getPdfPages(file);
+            Integer page = XEasyPdfUtils.getPdfPages(file);
             totalPage = page;
             totalPageLab.setText(page.toString());
         } catch (Exception e) {
@@ -108,7 +99,7 @@ public class PDFToDOCPageController extends FXController {
         cacheOutFolder = outFolderPath;
     }
 
-    public void start(ActionEvent actionEvent) {
+    public void toPdf(ActionEvent actionEvent) {
         int fromPage = fxGetInt(startPageTF);
         int toPage = fxGetInt(endPageTF);
         if (fromPage <= 0) {
@@ -119,24 +110,35 @@ public class PDFToDOCPageController extends FXController {
         }
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
-            String outPath = getOutFilePath();
+            String outPath = getOutFilePath(".pdf");
             FileOutputStream fileOutputStream = new FileOutputStream(outPath);
-            OtherPdfHelper.splitPdf(fileInputStream, fileOutputStream, fromPage, toPage);
-
+            XEasyPdfUtils.splitPdf(fileInputStream, fileOutputStream, fromPage, toPage);
         } catch (Exception e) {
             printMsg(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
         }
         printMsg("导出成功");
     }
 
-    private String getOutFilePath() {
+    public void toDoc(ActionEvent actionEvent) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            String outPath = getOutFilePath(".doc");
+            FileOutputStream fileOutputStream = new FileOutputStream(outPath);
+            ItextPdfHelper.toDoc(fileInputStream, fileOutputStream);
+        } catch (Exception e) {
+            printMsg(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+        }
+        printMsg("导出成功");
+    }
+
+    private String getOutFilePath(String suffix) {
         String outPath = "";
         if (StringUtils.hasText(cacheOutFolder)) {
             outPath = cacheOutFolder;
         } else {
             outPath = cacheInFolder;
         }
-        return outPath + "\\" + outFileNameTF.getText() + ".pdf";
+        return outPath + "\\" + outFileNameTF.getText() + suffix;
     }
 
     private Integer fxGetInt(TextInputControl c) {
@@ -146,51 +148,6 @@ public class PDFToDOCPageController extends FXController {
         }
         return 0;
     }
-
-//    public void initialize11(URL location, ResourceBundle resources) {
-//        docBtn.setOnAction(e -> {
-//            String filePath = a.getText();
-//            try {
-//                PDFHelper3.pdfToDoc(filePath);
-//                c.setText("成功");
-//            } catch (Exception exception) {
-//                exception.printStackTrace();
-//                c.setText(e.toString());
-//            }
-//        });
-//        cutBtn.setOnAction(e -> {
-//            String filePath = a.getText();
-////            String outPath = b.getText();
-//            int fromPage = Integer.parseInt(page1.getText());
-//            int toPage = Integer.parseInt(page2.getText());
-//            try {
-//                FileInputStream fileInputStream = new FileInputStream(filePath);
-////                FileOutputStream fileOutputStream = new FileOutputStream(outPath);
-//                String outPath = filePath.substring(0, filePath.lastIndexOf(".")) + "-temp.pdf";
-//                FileOutputStream fileOutputStream = new FileOutputStream(outPath);
-//                OtherPdfHelper.splitPdf(fileInputStream, fileOutputStream, fromPage, toPage);
-//                c.setText("成功");
-//            } catch (Exception exception) {
-//                exception.printStackTrace();
-//                c.setText(e.toString());
-//            }
-//        });
-//        delBtn.setOnAction(e -> {
-//            String filePath = a.getText();
-//            String outPath = b.getText();
-//            List<String> deleteList = Arrays.asList(deletes.getText().split(","));
-//            List<Integer> list = deleteList.stream().map(Integer::parseInt).collect(Collectors.toList());
-//            try {
-//                FileInputStream fileInputStream = new FileInputStream(filePath);
-//                FileOutputStream fileOutputStream = new FileOutputStream(outPath);
-//                OtherPdfHelper.deletePdfPage(fileInputStream, fileOutputStream, list);
-//                c.setText("成功");
-//            } catch (Exception exception) {
-//                exception.printStackTrace();
-//                c.setText(e.toString());
-//            }
-//        });
-//    }
 
     public void printMsg(String msg) {
         messageJFX.setText(msg);
