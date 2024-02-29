@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="539.0" prefWidth="728.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lgq.pdf_util.controller.BasePageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="539.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lgq.pdf_util.controller.BasePageController">
    <center>
-      <VBox prefHeight="539.0" prefWidth="421.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="539.0" prefWidth="900" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton fx:id="toPDFToDOCPageBtn" alignment="TOP_CENTER" contentDisplay="TOP" onAction="#toPDFToDOCPage" prefHeight="67.0" prefWidth="327.0" style="-fx-background-color: #3c91c9;" text="PDF转换">
+            <JFXButton fx:id="toPDFToDOCPageBtn" alignment="TOP_CENTER" contentDisplay="TOP" onAction="#toPDFToDOCPage" prefHeight="67.0" prefWidth="600.0" style="-fx-background-color: #3c91c9;" text="PDF转换">
                <VBox.margin>
                   <Insets left="50.0" right="50.0" top="10.0" />
                </VBox.margin>
@@ -18,7 +18,7 @@
                   <Font size="30.0" />
                </font>
             </JFXButton>
-             <JFXButton fx:id="toPDFSJointPageBtn" alignment="TOP_CENTER" contentDisplay="TOP" onAction="#toPDFSJointPage" prefHeight="67.0" prefWidth="327.0" style="-fx-background-color: #3c91c9;" text="PDF拼接">
+             <JFXButton fx:id="toPDFSJointPageBtn" alignment="TOP_CENTER" contentDisplay="TOP" onAction="#toPDFSJointPage" prefHeight="67.0" prefWidth="600.0" style="-fx-background-color: #3c91c9;" text="PDF拼接">
                  <VBox.margin>
                      <Insets left="50.0" right="50.0" top="10.0" />
                  </VBox.margin>
@@ -26,23 +26,7 @@
                      <Font size="30.0" />
                  </font>
              </JFXButton>
-            <JFXButton alignment="TOP_CENTER" contentDisplay="TOP" prefHeight="67.0" prefWidth="327.0" style="-fx-background-color: #3c91c9;" text="PDF页数裁剪">
-                <VBox.margin>
-                    <Insets left="50.0" right="50.0" top="10.0" />
-                </VBox.margin>
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </JFXButton>
-            <JFXButton alignment="TOP_CENTER" contentDisplay="TOP" prefHeight="67.0" prefWidth="327.0" style="-fx-background-color: #3c91c9;" text="PDF页面删除">
-                <VBox.margin>
-                    <Insets left="50.0" right="50.0" top="10.0" />
-                </VBox.margin>
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </JFXButton>
-             <JFXButton fx:id="closeBtn" alignment="TOP_CENTER" contentDisplay="TOP" onAction="#close" prefHeight="67.0" prefWidth="327.0" style="-fx-background-color: #3c91c9;" text="退出">
+             <JFXButton fx:id="closeBtn" alignment="TOP_CENTER" contentDisplay="TOP" onAction="#close" prefHeight="67.0" prefWidth="600.0" style="-fx-background-color: #3c91c9;" text="退出">
                  <VBox.margin>
                      <Insets left="50.0" right="50.0" top="10.0" />
                  </VBox.margin>

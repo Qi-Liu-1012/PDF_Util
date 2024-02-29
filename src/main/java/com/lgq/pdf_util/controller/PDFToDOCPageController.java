@@ -17,7 +17,11 @@ import org.springframework.util.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @FXMLController
 public class PDFToDOCPageController extends FXController {
@@ -42,11 +46,15 @@ public class PDFToDOCPageController extends FXController {
     @FXML
     private TextField endPageTF;
     @FXML
+    private TextField deletePagesTF;
+    @FXML
     private Label totalPageLab;
     @FXML
     private JFXButton toDocBtn;
     @FXML
     private JFXButton toPdfBtn;
+    @FXML
+    private JFXButton deletePageBtn;
     @FXML
     private JFXTextArea messageJFX;
 
@@ -72,11 +80,12 @@ public class PDFToDOCPageController extends FXController {
                 new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
         );
         file = fileChooser.showOpenDialog(getStage(chooseFileBtn));
+        file = new File(file.getAbsolutePath());
         cacheInFolder = file.getParent();
         String fileName = file.getName();
         int lastIndex = fileName.lastIndexOf(".");
         fileNameTF.setText(fileName);
-        outFileNameTF.setText(fileName.substring(0, lastIndex) + "_temp");
+        outFileNameTF.setText(fileName.substring(0, lastIndex) + "_" + UUID.randomUUID());
         try {
             Integer page = XEasyPdfUtils.getPdfPages(file);
             totalPage = page;
@@ -119,16 +128,60 @@ public class PDFToDOCPageController extends FXController {
         printMsg("导出成功");
     }
 
-    public void toDoc(ActionEvent actionEvent) {
+    public void toDoc(ActionEvent actionEvent) throws IOException {
+        FileInputStream fileInputStream = null;
+        FileOutputStream fileOutputStream = null;
         try {
-            FileInputStream fileInputStream = new FileInputStream(file);
+            fileInputStream = new FileInputStream(file);
             String outPath = getOutFilePath(".doc");
-            FileOutputStream fileOutputStream = new FileOutputStream(outPath);
-            ItextPdfHelper.toDoc(fileInputStream, fileOutputStream);
+            fileOutputStream = new FileOutputStream(outPath);
+            PDFHelper3.pdfToDoc(fileInputStream, fileOutputStream);
         } catch (Exception e) {
             printMsg(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+        } finally {
+            if (Objects.nonNull(fileInputStream)) {
+                fileInputStream.close();
+            }
+            if (Objects.nonNull(fileOutputStream)) {
+                fileOutputStream.close();
+            }
         }
         printMsg("导出成功");
+    }
+
+    public void deletePage(ActionEvent actionEvent) throws IOException {
+        FileInputStream fileInputStream = null;
+        FileOutputStream fileOutputStream = null;
+        try {
+            List<Integer> deletePages = getDeletePages();
+            fileInputStream = new FileInputStream(file);
+            String outPath = getOutFilePath(".pdf");
+            fileOutputStream = new FileOutputStream(outPath);
+            XEasyPdfUtils.deletePdfPage(fileInputStream, fileOutputStream, deletePages);
+        } catch (Exception e) {
+            printMsg(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+        } finally {
+            if (Objects.nonNull(fileInputStream)) {
+                fileInputStream.close();
+            }
+            if (Objects.nonNull(fileOutputStream)) {
+                fileOutputStream.close();
+            }
+        }
+        printMsg("导出成功");
+    }
+
+    public List<Integer> getDeletePages() {
+        String text = deletePagesTF.getText();
+        if (!StringUtils.hasText(text)) {
+            printMsg("请正确输入要删除的页码, 规则【页码之间使用英文逗号分隔】。例如(1,2,3)");
+        }
+        try {
+            return CommonUtils.splitNum(text);
+        } catch (Exception e) {
+            printMsg("请正确输入要删除的页码, 规则【页码之间使用英文逗号分隔】。例如(1,2,3)");
+            throw e;
+        }
     }
 
     private String getOutFilePath(String suffix) {

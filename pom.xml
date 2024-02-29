@@ -100,11 +100,6 @@
             <artifactId>x-easypdf</artifactId>
             <version>2.12.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.pdfbox</groupId>
-            <artifactId>pdfbox</artifactId>
-            <version>1.8.10</version>
-        </dependency>
 
         <dependency>
             <groupId>net.ifok.image</groupId>

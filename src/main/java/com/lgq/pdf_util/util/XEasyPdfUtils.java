@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class XEasyPdfUtils {
     public static void main(String[] args) throws Exception {
-        File file1 = new File("E:\\user-file\\wechat\\WeChat Files\\wxid_vyj1cviixz9321\\FileStorage\\File\\2024-02\\经责审计取证单.pdf");
+        File file1 = new File("C:\\Users\\82703\\Desktop\\ceshi\\1-合同.pdf");
         File file1_1 = new File("E:\\user-file\\wechat\\WeChat Files\\wxid_vyj1cviixz9321\\FileStorage\\File\\2024-02\\经责审计取证单-out5e7b8320-3613-406d-9eec-88575da744a6.pdf");
         ArrayList<File> list = new ArrayList<>();
         list.add(file1);
@@ -27,11 +27,12 @@ public class XEasyPdfUtils {
         File file2 = new File("E:\\user-file\\wechat\\WeChat Files\\" +
                 "wxid_vyj1cviixz9321\\FileStorage\\File\\2024-02\\经责审计取证单-out" +
                 UUID.randomUUID().toString() + ".pdf");
-        FileOutputStream fileOutputStream = new FileOutputStream(file2);
+        System.out.println(getPdfPages(file1));
+//        FileOutputStream fileOutputStream = new FileOutputStream(file2);
 //        deletePdfPage(inputStream, fileOutputStream, Arrays.asList(23, 24));
 //         System.out.println(getPdfPages(file1));
 //        splitPdf(inputStream, fileOutputStream, 1, 23);
-        concatPDFsByPage(list, fileOutputStream);
+//        concatPDFsByPage(list, fileOutputStream);
     }
 
     private static void closeDocument(XEasyPdfDocument document) {
