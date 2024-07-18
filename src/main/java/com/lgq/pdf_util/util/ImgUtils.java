@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Scanner;
 import java.util.UUID;
 
 /**
@@ -19,11 +20,19 @@ import java.util.UUID;
  */
 public class ImgUtils {
     public static void main(String[] args) throws Exception {
-        File file1 = new File("E:\\download\\浏览器\\mysql.png");
-        File file2 = new File("E:\\download\\浏览器\\mysql_out_"
+        System.out.println("****************【图片转ico】****************");
+        System.out.println("请输入目标文件地址：");
+        Scanner scanner = new Scanner(System.in);
+        String filePath = scanner.nextLine();
+        System.out.println("【开始转换】");
+        File file = new File(filePath);
+        String parent = file.getParent();
+        File outFile = new File(parent + "\\"
                 + UUID.randomUUID()
                 + ".ico");
-        convertPngToIco(file1, file2, true);
+        System.out.println("【转换结束】");
+
+        convertPngToIco(file, outFile, true);
     }
 
     public static void toIco(File inFile, File outFile) throws Exception {

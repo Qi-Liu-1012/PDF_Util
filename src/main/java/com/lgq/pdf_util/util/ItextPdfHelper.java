@@ -82,7 +82,7 @@ public class ItextPdfHelper {
             document.open();
             PdfContentByte cb = writer.getDirectContent();
             PdfImportedPage page;
-            for (int i = 1; i <totalPages; i++) {
+            for (int i = 1; i < totalPages; i++) {
                 document.setPageSize(inputPdf.getPageSize(inputPdf.getPageN(i)));
                 document.newPage();
                 page = writer.getImportedPage(inputPdf, i);
@@ -155,13 +155,13 @@ public class ItextPdfHelper {
 
         switch (rotation) {
             case 90:
-                return new double[] {0, -1, 1, 0, 0, height};
+                return new double[]{0, -1, 1, 0, 0, height};
             case 180:
-                return new double[] {-1, 0, 0, -1, width, height};
+                return new double[]{-1, 0, 0, -1, width, height};
             case 270:
-                return new double[] {0, 1, -1, 0, width, 0};
+                return new double[]{0, 1, -1, 0, width, 0};
             default: // 包括0度（即无旋转）
-                return new double[] {1, 0, 0, 1, 0, 0};
+                return new double[]{1, 0, 0, 1, 0, 0};
         }
     }
 
@@ -169,10 +169,10 @@ public class ItextPdfHelper {
         File file1 = new File("E:\\user-file\\wechat\\WeChat Files\\wxid_vyj1cviixz9321\\FileStorage\\File\\2024-02\\经责审计取证单.pdf");
         File file2 = new File("E:\\user-file\\wechat\\WeChat Files\\" +
                 "wxid_vyj1cviixz9321\\FileStorage\\File\\2024-02\\经责审计取证单-out" +
-                UUID.randomUUID().toString() +".pdf");
+                UUID.randomUUID().toString() + ".pdf");
         FileInputStream inputStream = new FileInputStream(file1);
         FileOutputStream fileOutputStream = new FileOutputStream(file2);
-        deletePdfPage(inputStream, fileOutputStream, Arrays.asList(23,24));
+        deletePdfPage(inputStream, fileOutputStream, Arrays.asList(23, 24));
     }
 
     /**

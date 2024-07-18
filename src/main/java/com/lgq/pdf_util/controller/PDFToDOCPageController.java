@@ -57,6 +57,10 @@ public class PDFToDOCPageController extends FXController {
     private JFXButton deletePageBtn;
     @FXML
     private JFXTextArea messageJFX;
+    @FXML
+    private JFXButton withdrawPageBtn;
+    @FXML
+    private TextField withdrawPagesTF;
 
     private File file;
     private Integer totalPage;
@@ -135,7 +139,7 @@ public class PDFToDOCPageController extends FXController {
             fileInputStream = new FileInputStream(file);
             String outPath = getOutFilePath(".doc");
             fileOutputStream = new FileOutputStream(outPath);
-            PDFHelper3.pdfToDoc(fileInputStream, fileOutputStream);
+            PdfUtils.pdfToDoc(fileInputStream, fileOutputStream);
         } catch (Exception e) {
             printMsg(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
         } finally {
@@ -184,6 +188,41 @@ public class PDFToDOCPageController extends FXController {
         }
     }
 
+    public void withdrawPage(ActionEvent actionEvent) throws IOException {
+        FileInputStream fileInputStream = null;
+        FileOutputStream fileOutputStream = null;
+        try {
+            List<Integer> pages = getWithdrawPages();
+            fileInputStream = new FileInputStream(file);
+            String outPath = getOutFilePath(".pdf");
+            fileOutputStream = new FileOutputStream(outPath);
+            XEasyPdfUtils.withdrawPdfPage(fileInputStream, fileOutputStream, pages);
+        } catch (Exception e) {
+            printMsg(e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()));
+        } finally {
+            if (Objects.nonNull(fileInputStream)) {
+                fileInputStream.close();
+            }
+            if (Objects.nonNull(fileOutputStream)) {
+                fileOutputStream.close();
+            }
+        }
+        printMsg("导出成功");
+    }
+
+    public List<Integer> getWithdrawPages() {
+        String text = withdrawPagesTF.getText();
+        if (!StringUtils.hasText(text)) {
+            printMsg("请正确输入要提取的页码, 规则【页码之间使用英文逗号分隔】。例如(1,2,3)");
+        }
+        try {
+            return CommonUtils.splitNum(text);
+        } catch (Exception e) {
+            printMsg("请正确输入要提取的页码, 规则【页码之间使用英文逗号分隔】。例如(1,2,3)");
+            throw e;
+        }
+    }
+
     private String getOutFilePath(String suffix) {
         String outPath = "";
         if (StringUtils.hasText(cacheOutFolder)) {
@@ -197,7 +236,7 @@ public class PDFToDOCPageController extends FXController {
     private Integer fxGetInt(TextInputControl c) {
         String text = c.getText();
         if (StringUtils.hasText(text)) {
-            return Integer.parseInt(startPageTF.getText());
+            return Integer.parseInt(text);
         }
         return 0;
     }

@@ -146,4 +146,25 @@ public class XEasyPdfUtils {
             }
         }
     }
+
+    public static void withdrawPdfPage(FileInputStream inputStream, FileOutputStream outputStream, List<Integer> pages) {
+        XEasyPdfDocument document = null;
+        XEasyPdfDocument outDocument = null;
+        try {
+            document = XEasyPdfHandler.Document.load(inputStream);
+            outDocument = XEasyPdfHandler.Document.build();
+            List<XEasyPdfPage> pageList = document.getPageList();
+            for (Integer page : pages) {
+                XEasyPdfPage pdfPage = CommonUtils.getListElementOrDefault(pageList, page - 1, null);
+                if (Objects.nonNull(pdfPage)) {
+                    outDocument.addPage(pdfPage);
+                }
+            }
+            outDocument.flush();
+            outDocument.save(outputStream);
+        } finally {
+            closeDocument(document);
+            closeDocument(outDocument);
+        }
+    }
 }

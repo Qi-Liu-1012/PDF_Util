@@ -20,6 +20,7 @@
                   <JFXButton fx:id="toPdfBtn" onAction="#toPdf" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="开始截取" />
                   <JFXButton fx:id="toDocBtn" onAction="#toDoc" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="转换为DOC" />
                   <JFXButton fx:id="deletePageBtn" onAction="#deletePage" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="删除目标页面" />
+                  <JFXButton fx:id="withdrawPageBtn" onAction="#withdrawPage" style="-fx-border-color: rgba(9,113,130,0.71); -fx-background-color: #aacbb4;" text="提取目标页面" />
                </children>
             </VBox>
             <VBox prefHeight="400.0" prefWidth="750.0">
@@ -52,6 +53,12 @@
                      <children>
                         <Label prefHeight="15.0" prefWidth="120.0" text="需要删除的页面：" />
                         <TextField fx:id="deletePagesTF" prefHeight="23.0" prefWidth="600.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label prefHeight="15.0" prefWidth="120.0" text="需要提取的页面：" />
+                        <TextField fx:id="withdrawPagesTF" prefHeight="23.0" prefWidth="600.0" />
                      </children>
                   </HBox>
                   <JFXTextArea fx:id="messageJFX" prefHeight="238.0" prefWidth="483.0" style="-fx-background-color: #82c9a7;" unFocusColor="#82c9a7" />
